@@ -17,7 +17,7 @@ Hit Sphere::intersect(Ray const &ray) {
 
   double t0;
   double t1;
-  if (not Solvers::quadratic(a, b, c, t0, t1)) return Hit::NO_HIT();
+  if (!Solvers::quadratic(a, b, c, t0, t1)) return Hit::NO_HIT();
 
   // t0 is closest hit
   if (t0 < 0.0)  // check if it is not behind the camera

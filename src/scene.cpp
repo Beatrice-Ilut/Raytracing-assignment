@@ -58,6 +58,17 @@ Color Scene::trace(Ray const &ray, unsigned depth) {
   for (auto const &light : lights) {
     Vector L = (light->position - hit).normalized();
 
+    // render shadows if enabled, offset to avaoid shadow acne
+    if (renderShadows) {
+      Vector offsetNormal = N.dot(L) >= 0.0 ? N : -N;
+      Point shadowOrigin = hit + epsilon * offsetNormal;
+      Vector shadowDirection = (light->position - shadowOrigin).normalized();
+      pair<ObjectPtr, Hit> shadowhit = castRay(Ray(shadowOrigin, shadowDirection));
+      double lightDistance = (light->position - shadowOrigin).length();
+
+      if (shadowhit.first && shadowhit.second.t < lightDistance) continue;
+    }
+
     // Add diffuse.
     double dotNormal = shadingN.dot(L);
     double diffuse = std::max(dotNormal, 0.0);
@@ -73,11 +84,45 @@ Color Scene::trace(Ray const &ray, unsigned depth) {
     }
   }
 
-  if (depth > 0 and material.isTransparent) {
+  if (depth > 0 && material.isTransparent) {
     // The object is transparent, and thus refracts and reflects light.
-    // Use Schlick's approximation to determine the ratio between the two.
-  } else if (depth > 0 and material.ks > 0.0) {
+
+    // use Snell's law to compute the refraction direction and trace it recursively.
+    bool entering = N.dot(ray.D) < 0.0;
+    Vector refractionNormal = entering ? N : -N;
+    double n1 = entering ? 1.0 : material.nt;
+    double n2 = entering ? material.nt : 1.0;
+    double cosTheta = max(0.0, min(1.0, -ray.D.dot(refractionNormal)));
+    double eta = n1 / n2;
+    double sin2ThetaT = eta * eta * (1.0 - cosTheta * cosTheta);
+
+    Vector reflectionDirection = reflect(ray.D, refractionNormal).normalized();
+    Vector reflectionOffsetNormal = N.dot(reflectionDirection) >= 0.0 ? N : -N;
+    Point reflectionOrigin = hit + epsilon * reflectionOffsetNormal;
+    Color reflectedColor = trace(Ray(reflectionOrigin, reflectionDirection), depth - 1);
+
+    double reflectance = 1.0;
+    if (sin2ThetaT < 1.0) {
+      double cosThetaT = sqrt(1.0 - sin2ThetaT);
+      double r0 = (n1 - n2) / (n1 + n2);
+      r0 *= r0;
+      // schlick's approximation for reflectance
+      reflectance = r0 + (1.0 - r0) * pow(1.0 - cosTheta, 5.0);
+      
+      Vector refractionDirection = (eta * ray.D + (eta * cosTheta - cosThetaT) * refractionNormal).normalized();
+      Vector refractionOffsetNormal = N.dot(refractionDirection) >= 0.0 ? N : -N;
+      Point refractionOrigin = hit + epsilon * refractionOffsetNormal;
+      color += (1.0 - reflectance) * trace(Ray(refractionOrigin, refractionDirection), depth - 1);
+    }
+
+    color += reflectance * reflectedColor;
+  } else if (depth > 0 && material.ks > 0.0) {
     // The object is not transparent, but opaque.
+    // Reflect the ray and trace it recursively.
+    Vector reflectionDirection = reflect(ray.D, shadingN);
+    Vector offsetNormal = N.dot(reflectionDirection) >= 0.0 ? N : -N;
+    Point reflectionOrigin = hit + epsilon * offsetNormal;
+    color += material.ks * trace(Ray(reflectionOrigin, reflectionDirection), depth - 1);
   }
 
   return color;

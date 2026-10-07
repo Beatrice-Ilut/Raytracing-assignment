@@ -22,7 +22,7 @@ Hit Quad::intersect(Ray const &ray) {
   // Determine if the hit is inside of the quad.
   double u = (hit - v0).dot(v1 - v0);
   double v = (hit - v0).dot(v3 - v0);
-  if (0.0 <= u and u <= (v1 - v0).length_2() and 0.0 <= v and v <= (v3 - v0).length_2()) return Hit(t, N);
+  if (0.0 <= u && u <= (v1 - v0).length_2() && 0.0 <= v && v <= (v3 - v0).length_2()) return Hit(t, N);
 
   return Hit::NO_HIT();
 }

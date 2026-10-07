@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\Beatrice\Desktop\group-1_ray-tracing-2\src\image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Beatrice\Desktop\group-1_ray-tracing-2\src\lode\lodepng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Beatrice\Desktop\group-1_ray-tracing-2\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Beatrice\Desktop\group-1_ray-tracing-2\src\objloader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Beatrice\Desktop\group-1_ray-tracing-2\src\raytracer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Beatrice\Desktop\group-1_ray-tracing-2\src\scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Beatrice\Desktop\group-1_ray-tracing-2\src\shapes\quad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Beatrice\Desktop\group-1_ray-tracing-2\src\shapes\solvers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Beatrice\Desktop\group-1_ray-tracing-2\src\shapes\sphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Beatrice\Desktop\group-1_ray-tracing-2\src\triple.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Beatrice\Desktop\group-1_ray-tracing-2\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{101E7619-A465-33A9-906E-BBE8EB7D75BB}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
