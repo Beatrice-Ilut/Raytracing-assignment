@@ -49,7 +49,17 @@ Color Scene::trace(Ray const &ray, unsigned depth) {
   else
 	shadingN = -N;
 
-  Color matColor = material.color;
+  Color matColor;
+
+  // Check if the material of the object has a texture.
+  // If yes, use the texture color as a base for illumination.
+  // Otherwise, use the material color.
+  if (material.hasTexture) {
+	Vector uvCoords = obj->toUV(hit);
+	matColor = obj->material.texture.colorAt(uvCoords.x, 1.0 - uvCoords.y);
+  } else {
+	matColor = material.color;
+  }
 
   // Add ambient once, regardless of the number of lights.
   Color color = material.ka * matColor;
