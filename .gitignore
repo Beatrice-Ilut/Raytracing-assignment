@@ -1,4 +1,4 @@
-# build directories
+# build directory
 build/
 
 # CMake files
@@ -12,6 +12,9 @@ CMakeLists.txt.user
 /build-vs/
 
 
-# Other directories
+# Images
 /images/*.jpg
 /images/*.png
+
+# Other directories
+/.cache/
