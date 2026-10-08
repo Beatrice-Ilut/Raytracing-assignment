@@ -3,3 +3,10 @@ build/
 
 # CMake files
 CMakeLists.txt.user
+
+# Zip files
+*.zip
+
+# VSCode config
+.vscode/
+build-vs/
