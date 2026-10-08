@@ -5,8 +5,13 @@ build/
 CMakeLists.txt.user
 
 # Zip files
-*.zip
+/zip/*.zip
 
 # VSCode config
-.vscode/
-build-vs/
+/.vscode/
+/build-vs/
+
+
+# Other directories
+/images/*.jpg
+/images/*.png
